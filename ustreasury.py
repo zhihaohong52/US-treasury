@@ -18,7 +18,10 @@ if response.status_code == 200:
 us_treasury = us_treasury.drop([0,1,2,3,4])
 us_treasury.rename(columns={'Series Description':'Date'}, inplace=True)
 us_treasury.set_index('Date', inplace=True)
+us_treasury.replace(to_replace='ND', value='NaN', inplace=True)
 
+for col in us_treasury.columns:
+    us_treasury[col] = pd.to_numeric(us_treasury[col], errors='coerce')
 
 #write csv file
 import os
